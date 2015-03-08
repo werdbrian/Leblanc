@@ -439,6 +439,7 @@ namespace Leblanc
                 var target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Magical);
                 if (target != null)
                 {
+                    CheckE(target);
                     if (Ecol == 1)
                     {
                         if (W.IsReady() && Wstate != 2)
