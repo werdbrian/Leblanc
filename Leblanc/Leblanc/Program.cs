@@ -58,6 +58,7 @@ namespace Leblanc
             Menu spellMenu = Menu.AddSubMenu(new Menu("Spells", "Spells"));
             spellMenu.AddItem(new MenuItem("Use Q Harass", "Use Q Harass").SetValue(true));
             spellMenu.AddItem(new MenuItem("Use W Harass", "Use W Harass").SetValue(true));
+            spellMenu.AddItem(new MenuItem("Use W Back Harass", "Use W Back Harass").SetValue(true));
             spellMenu.AddItem(new MenuItem("Use W Combo", "Use W Combo").SetValue(true));
             spellMenu.AddItem(new MenuItem("force focus selected", "force focus selected").SetValue(false));
             spellMenu.AddItem(new MenuItem("if selected in :", "if selected in :").SetValue(new Slider(1000, 1000, 1500)));
@@ -97,6 +98,10 @@ namespace Leblanc
                 if (Menu.Item("Use W Harass").GetValue<bool>())
                 {
                     useWH();
+                }
+                if (Menu.Item("Use W Back Harass").GetValue<bool>())
+                {
+                    useWBH();
                 }
 
             }
@@ -215,6 +220,13 @@ namespace Leblanc
                 }
             }
         }
+        
+        public static void useWBH ()
+	    {
+	        if ( Wstate == 2)
+		    W.Cast();
+	    }
+	    
         public static void useR ()
         {
             if (Selected())
