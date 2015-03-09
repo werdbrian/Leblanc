@@ -286,17 +286,18 @@ namespace Leblanc
                             {
                                 R.Cast(pos2);
                             }
+                    	    else
+                    	    {
+                            	var prediction = R.GetPrediction(target);
+                            	if (prediction.Hitchance >= HitChance.High)
+                            	{
+                            	     var pos3 = prediction.CastPosition;
+                                     var pos4 = Player.Position.Extend(pos3, 600);
+                            	     R.Cast(pos4);
+                            	}
+                    	     }
                         }
-                    }
-                    else
-                    {
-                        var prediction = R.GetPrediction(target);
-                        if (prediction.Hitchance >= HitChance.High)
-                        {
-                            var pos3 = prediction.CastPosition;
-                            var pos4 = Player.Position.Extend(pos3, 600);
-                            R.Cast(pos4);
-                        }
+                    	
                     }
                 }
             }
@@ -331,16 +332,17 @@ namespace Leblanc
                     {
                         W.Cast(pos2);
                     }
-                }
-            }
-            else
-            {
-                var prediction = W.GetPrediction(target);
-                if (prediction.Hitchance >= HitChance.High)
-                {
-                    var pos3 = prediction.CastPosition;
-                    var pos4 = Player.Position.Extend(pos3, 600);
-                    W.Cast(pos4);
+            	    else
+            	    {
+                      	var prediction = W.GetPrediction(target);
+                	if (prediction.Hitchance >= HitChance.High)
+                	{
+                    	var pos3 = prediction.CastPosition;
+                    	var pos4 = Player.Position.Extend(pos3, 600);
+                    	W.Cast(pos4);
+                	}
+            	    }
+            
                 }
             }
         }
