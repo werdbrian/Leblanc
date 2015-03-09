@@ -442,7 +442,8 @@ namespace Leblanc
                        useQ();
                        useR();
                        useE();
-                       useW();
+                       if (!(R.IsReady()&& Rstate == 1))
+                       	   useW();
                    }
                 }
             }
@@ -481,7 +482,8 @@ namespace Leblanc
                         useQ();
                         useR();
                         useE();
-                        useW();
+                        if (!(R.IsReady()&& Rstate == 1))
+                            useW();
                     }
                 }
                 else
