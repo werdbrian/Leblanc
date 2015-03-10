@@ -119,7 +119,7 @@ namespace Leblanc
             {
                 var target = TargetSelector.GetSelectedTarget();
                 float a = Menu.Item("if selected in :").GetValue<Slider>().Value;
-                if (target == null)
+                if (target == null || target.IsDead || target.IsZombie)
                 {
                     return false;
                 }
