@@ -349,9 +349,12 @@ namespace Leblanc
 
         public static void CastE (Obj_AI_Base target)
         {
-            if (E.IsReady() && !R.IsReady() && Rstate != 4 && !Player.IsDashing())
+            if (E.IsReady() && !Player.IsDashing())
             {
-                E.Cast(target);
+            	if (!R.IsReady())
+                {E.Cast(target);}
+                if (R.IsReady() && Rstate != 4)
+                {E.Cast(target);}
             }
         }
 
