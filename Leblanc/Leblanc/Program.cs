@@ -353,7 +353,7 @@ namespace Leblanc
             {
             	if (!R.IsReady())
                 {E.Cast(target);}
-                if (R.IsReady() && Rstate != 4)
+                if (R.IsReady() && Rstate == 4)
                 {E.Cast(target);}
             }
         }
