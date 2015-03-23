@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +20,7 @@ namespace Leblanc
 
         private static Menu Menu;
 
-        private static int Rstate , Wstate, Ecol;
+        private static int Rstate, Wstate, Ecol;
 
         static void Main(string[] args)
         {
@@ -62,6 +62,7 @@ namespace Leblanc
             spellMenu.AddItem(new MenuItem("Use W Combo", "Use W Combo").SetValue(true));
             spellMenu.AddItem(new MenuItem("force focus selected", "force focus selected").SetValue(false));
             spellMenu.AddItem(new MenuItem("if selected in :", "if selected in :").SetValue(new Slider(1000, 1000, 1500)));
+            spellMenu.AddItem(new MenuItem("QE Selected Target", "QE Selected Target").SetValue(new KeyBind("G".ToCharArray()[0], KeyBindType.Press)));
             //spellMenu.AddItem(new MenuItem("Use E", "Use E")).SetValue(false);
             //foreach (var hero in ObjectManager.Get<Obj_AI_Hero>().Where(hero => hero.IsEnemy))
             //{
@@ -107,6 +108,10 @@ namespace Leblanc
             }
             CheckR();
             CheckW();
+            if (Menu.Item("QE Selected Target").GetValue<KeyBind>().Active)
+            {
+                useQE();
+            }
         }
 
         public static bool Selected()
@@ -143,7 +148,7 @@ namespace Leblanc
                 {
                     Q.Cast(target);
                 }
-                
+
             }
             else
             {
@@ -155,7 +160,7 @@ namespace Leblanc
             }
         }
 
-        public static void useE ()
+        public static void useE()
         {
             if (Selected())
             {
@@ -176,7 +181,7 @@ namespace Leblanc
                 }
             }
         }
-        public static void useW ()
+        public static void useW()
         {
             if (Menu.Item("Use W Combo").GetValue<bool>())
             {
@@ -200,7 +205,7 @@ namespace Leblanc
             }
         }
 
-        public static void useWH ()
+        public static void useWH()
         {
             if (Selected())
             {
@@ -220,14 +225,14 @@ namespace Leblanc
                 }
             }
         }
-        
-        public static void useWBH ()
-	    {
-	        if ( Wstate == 2)
-		    W.Cast();
-	    }
-	    
-        public static void useR ()
+
+        public static void useWBH()
+        {
+            if (Wstate == 2)
+                W.Cast();
+        }
+
+        public static void useR()
         {
             if (Selected())
             {
@@ -286,28 +291,28 @@ namespace Leblanc
                             {
                                 R.Cast(pos2);
                             }
-                    	    else
-                    	    {
-                            	var prediction = R.GetPrediction(target);
-                            	if (prediction.Hitchance >= HitChance.High)
-                            	{
-                            	     var pos3 = prediction.CastPosition;
-                                     var pos4 = Player.Position.Extend(pos3, 600);
-                            	     R.Cast(pos4);
-                            	}
-                    	     }
+                            else
+                            {
+                                var prediction = R.GetPrediction(target);
+                                if (prediction.Hitchance >= HitChance.High)
+                                {
+                                    var pos3 = prediction.CastPosition;
+                                    var pos4 = Player.Position.Extend(pos3, 600);
+                                    R.Cast(pos4);
+                                }
+                            }
                         }
-                    	
+
                     }
                 }
             }
         }
 
-        public static void CastW (Obj_AI_Base target)
+        public static void CastW(Obj_AI_Base target)
         {
             if (!W.IsReady() || Wstate != 1)
                 return;
-            var t = Prediction.GetPrediction(target,400).CastPosition;
+            var t = Prediction.GetPrediction(target, 400).CastPosition;
             float x = target.MoveSpeed;
             float y = x * 400 / 1000;
             var pos = target.Position;
@@ -317,7 +322,7 @@ namespace Leblanc
             }
             if (target.Distance(t) > y)
             {
-                pos = target.Position.Extend(t, y-50);
+                pos = target.Position.Extend(t, y - 50);
             }
             if (Player.Distance(pos) <= 600)
             {
@@ -332,29 +337,29 @@ namespace Leblanc
                     {
                         W.Cast(pos2);
                     }
-            	    else
-            	    {
-                      	var prediction = W.GetPrediction(target);
-                	if (prediction.Hitchance >= HitChance.High)
-                	{
-                    	var pos3 = prediction.CastPosition;
-                    	var pos4 = Player.Position.Extend(pos3, 600);
-                    	W.Cast(pos4);
-                	}
-            	    }
-            
+                    else
+                    {
+                        var prediction = W.GetPrediction(target);
+                        if (prediction.Hitchance >= HitChance.High)
+                        {
+                            var pos3 = prediction.CastPosition;
+                            var pos4 = Player.Position.Extend(pos3, 600);
+                            W.Cast(pos4);
+                        }
+                    }
+
                 }
             }
         }
 
-        public static void CastE (Obj_AI_Base target)
+        public static void CastE(Obj_AI_Base target)
         {
             if (E.IsReady() && !Player.IsDashing())
             {
-            	if (!R.IsReady())
-                {E.Cast(target);}
+                if (!R.IsReady())
+                { E.Cast(target); }
                 if (R.IsReady() && Rstate == 4)
-                {E.Cast(target);}
+                { E.Cast(target); }
             }
         }
 
@@ -387,7 +392,7 @@ namespace Leblanc
             if (x == "LeblancSoulShackleM")
                 Rstate = 3;
             if (x == "leblancslidereturnm")
-            { 
+            {
                 Rstate = 4;
             }
         }
@@ -409,7 +414,7 @@ namespace Leblanc
                 var target = TargetSelector.GetSelectedTarget();
                 CheckE(target);
                 float a = Player.Distance(target.Position);
-                if( a > Q.Range && a <= 1200)
+                if (a > Q.Range && a <= 1200)
                 {
                     if (R.IsReady() && Rstate != 4 && W.IsReady() && Wstate != 2 && Menu.Item("Use W Combo").GetValue<bool>())
                     {
@@ -418,38 +423,38 @@ namespace Leblanc
                 }
                 if (a <= Q.Range)
                 {
-                   if (Ecol == 1)
-                   {
-                       if ( W.IsReady() && Wstate != 2)
-                       {
-                           useW();
-                           useQ();
-                           useR();
-                           useE();
-                       }
-                       if (!W.IsReady() && Wstate ==1 && R.IsReady() && Rstate == 2)
-                       {
-                           useR();
-                           useQ();
-                           useE();
-                           useW();
-                       }
-                       else
-                       {
-                           useQ();
-                           useR();
-                           useE();
-                           useW();
-                       }
-                   }
-                   if (Ecol == 0 )
-                   {
-                       useQ();
-                       useR();
-                       useE();
-                       if (!(R.IsReady()&& Rstate == 1))
-                       	   useW();
-                   }
+                    if (Ecol == 1)
+                    {
+                        if (W.IsReady() && Wstate != 2)
+                        {
+                            useW();
+                            useQ();
+                            useR();
+                            useE();
+                        }
+                        if (!W.IsReady() && Wstate == 1 && R.IsReady() && Rstate == 2)
+                        {
+                            useR();
+                            useQ();
+                            useE();
+                            useW();
+                        }
+                        else
+                        {
+                            useQ();
+                            useR();
+                            useE();
+                            useW();
+                        }
+                    }
+                    if (Ecol == 0)
+                    {
+                        useQ();
+                        useR();
+                        useE();
+                        if (!(R.IsReady() && Rstate == 1))
+                            useW();
+                    }
                 }
             }
             else
@@ -487,16 +492,16 @@ namespace Leblanc
                         useQ();
                         useR();
                         useE();
-                        if (!(R.IsReady()&& Rstate == 1))
+                        if (!(R.IsReady() && Rstate == 1))
                             useW();
                     }
                 }
                 else
                 {
                     var target1 = TargetSelector.GetTarget(1200, TargetSelector.DamageType.Magical);
-                    if (target1 != null )
+                    if (target1 != null)
                     {
-                        if (R.IsReady() && Rstate != 4 && W.IsReady() && Wstate != 2 && Menu.Item("Use W Combo").GetValue<bool>() )
+                        if (R.IsReady() && Rstate != 4 && W.IsReady() && Wstate != 2 && Menu.Item("Use W Combo").GetValue<bool>())
                         {
                             W.Cast(Player.Position.Extend(target1.Position, 600));
                         }
@@ -505,6 +510,21 @@ namespace Leblanc
             }
         }
 
-
+        public static void useQE()
+        {
+                Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
+                var target = TargetSelector.GetSelectedTarget();
+                if (target != null && target.IsValidTarget() && !target.IsZombie)
+                {
+                    if( Player.Distance(target.Position) <= Q.Range)
+                    {
+                        Q.Cast(target);
+                    }
+                    if (Player.Distance(target.Position) <= E.Range)
+                    {
+                        E.Cast(target);
+                    }
+                } 
+        }
     }
 }
