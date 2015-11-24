@@ -60,6 +60,7 @@ namespace Leblanc
             spellMenu.AddItem(new MenuItem("Use W Harass", "Use W Harass").SetValue(true));
             spellMenu.AddItem(new MenuItem("Use W Back Harass", "Use W Back Harass").SetValue(true));
             spellMenu.AddItem(new MenuItem("Use W Combo", "Use W Combo").SetValue(true));
+            spellMenu.AddItem(new MenuItem("Use W Combo Gap", "Use W Combo Gap").SetValue(true));
             spellMenu.AddItem(new MenuItem("force focus selected", "force focus selected").SetValue(false));
             spellMenu.AddItem(new MenuItem("if selected in :", "if selected in :").SetValue(new Slider(1000, 1000, 1500)));
             spellMenu.AddItem(new MenuItem("QE Selected Target", "QE Selected Target").SetValue(new KeyBind("G".ToCharArray()[0], KeyBindType.Press)));
@@ -82,6 +83,7 @@ namespace Leblanc
 
             Game.PrintChat("Welcome to LeblancWorld");
         }
+        public static bool WgapCombo { get { return Menu.Item("Use W Combo Gap").GetValue<bool>(); } }
         public static void Game_OnGameUpdate(EventArgs args)
         {
             if (Player.IsDead)
@@ -395,6 +397,13 @@ namespace Leblanc
             {
                 Rstate = 4;
             }
+            if (Rstate == 1)
+                R = new Spell(SpellSlot.R, Q.Range);
+            if (Rstate == 2)
+            {
+                R = new Spell(SpellSlot.R, W.Range);
+                R.SetSkillshot(0, 70, 1500, false, SkillshotType.SkillshotLine);
+            }
         }
         public static void CheckW()
         {
@@ -416,12 +425,13 @@ namespace Leblanc
                 float a = Player.Distance(target.Position);
                 if (a > Q.Range && a <= 1200)
                 {
-                    if (R.IsReady() && Rstate != 4 && W.IsReady() && Wstate != 2 && Menu.Item("Use W Combo").GetValue<bool>())
+                    if (WgapCombo && R.IsReady() && Rstate != 4 && W.IsReady() 
+                        && Wstate != 2 && Menu.Item("Use W Combo").GetValue<bool>())
                     {
                         W.Cast(Player.Position.Extend(target.Position, 600));
                     }
                 }
-                if (a <= Q.Range)
+                else if (a <= Q.Range)
                 {
                     if (Ecol == 1)
                     {
@@ -460,7 +470,7 @@ namespace Leblanc
             else
             {
                 var target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Magical);
-                if (target != null)
+                if (target.IsValidTarget())
                 {
                     CheckE(target);
                     if (Ecol == 1)
@@ -501,7 +511,8 @@ namespace Leblanc
                     var target1 = TargetSelector.GetTarget(1200, TargetSelector.DamageType.Magical);
                     if (target1 != null)
                     {
-                        if (R.IsReady() && Rstate != 4 && W.IsReady() && Wstate != 2 && Menu.Item("Use W Combo").GetValue<bool>())
+                        if (WgapCombo && R.IsReady() && Rstate != 4 && W.IsReady() 
+                            && Wstate != 2 && Menu.Item("Use W Combo").GetValue<bool>())
                         {
                             W.Cast(Player.Position.Extend(target1.Position, 600));
                         }
