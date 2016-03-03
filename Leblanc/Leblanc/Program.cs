@@ -558,7 +558,7 @@ namespace Leblanc
             }
 			if (W.IsReady())
 			{
-            var canCastUlt = R.IsReady(.W);
+            var canCastUlt = R.IsReady();
             var minions = MinionManager.GetMinions(W.Range).Select(m => m.ServerPosition.To2D()).ToList();
             var minionPrediction = MinionManager.GetBestCircularFarmLocation(minions, W.Width, W.Range);
             var castPosition = minionPrediction.Position.To3D();
