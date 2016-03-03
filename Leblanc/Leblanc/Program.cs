@@ -76,7 +76,7 @@ namespace Leblanc
 
             Menu.AddToMainMenu();
 
-            //Drawing.OnDraw += Drawing_OnDraw;
+            Drawing.OnDraw += Drawing_OnDraw;
 
             Game.OnUpdate += Game_OnGameUpdate;
 
@@ -115,7 +115,17 @@ namespace Leblanc
                 useQE();
             }
         }
+        private static void Drawing_OnDraw(EventArgs args)
+			{
+		   
+						Utility.DrawCircle(Player.Position, 1200, Color.MediumTurquoise, 1, 55);
+						Utility.DrawCircle(Player.Position, Q.Range, Color.MediumTurquoise, 1, 55);
+						var target = TargetSelector.GetTarget(1200, TargetSelector.DamageType.Magical);
+						if (target==null) return;
+						Utility.DrawCircle( target.Position, 150,Color.MediumTurquoise, 30,
+						55);
 
+			}
         public static bool Selected()
         {
             if (!Menu.Item("force focus selected").GetValue<bool>())
