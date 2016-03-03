@@ -538,5 +538,39 @@ namespace Leblanc
                     }
                 } 
         }
+         private static void LaneClear()
+        {
+
+            if ( Q.IsReady())
+            {
+                var minionsQ = MinionManager.GetMinions(
+                    ObjectManager.Player.ServerPosition, Q.Range, MinionTypes.All, MinionTeam.NotAlly);
+                foreach (Obj_AI_Base vMinion in 
+                    from vMinion in minionsQ
+                    let vMinionQDamage = ObjectManager.Player.GetSpellDamage(vMinion, SpellSlot.Q)
+                    where
+                        vMinion.Health <= vMinionQDamage &&
+                        vMinion.Health > ObjectManager.Player.GetAutoAttackDamage(vMinion)
+                    select vMinion)
+                {
+                    Q.CastOnUnit(vMinion);
+                }
+            }
+			if (W.IsReady())
+			{
+            var canCastUlt = R.IsReady(.W);
+            var minions = MinionManager.GetMinions(W.Range).Select(m => m.ServerPosition.To2D()).ToList();
+            var minionPrediction = MinionManager.GetBestCircularFarmLocation(minions, W.Width, W.Range);
+            var castPosition = minionPrediction.Position.To3D();
+            var notEnoughHits = minionPrediction.MinionsHit < 4;
+            if (notEnoughHits)
+            {
+                return false;
+            }
+
+            W.Cast(castPosition);
+			}
+            
+        }
     }
 }
