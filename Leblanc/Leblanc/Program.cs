@@ -64,16 +64,6 @@ namespace Leblanc
             spellMenu.AddItem(new MenuItem("force focus selected", "force focus selected").SetValue(false));
             spellMenu.AddItem(new MenuItem("if selected in :", "if selected in :").SetValue(new Slider(1000, 1000, 1500)));
             spellMenu.AddItem(new MenuItem("QE Selected Target", "QE Selected Target").SetValue(new KeyBind("G".ToCharArray()[0], KeyBindType.Press)));
-            //spellMenu.AddItem(new MenuItem("Use E", "Use E")).SetValue(false);
-            //foreach (var hero in ObjectManager.Get<Obj_AI_Hero>().Where(hero => hero.IsEnemy))
-            //{
-            //    spellMenu.AddItem(new MenuItem("use R" + hero.SkinName, "use R" + hero.SkinName)).SetValue(true);
-            //}
-
-            //spellMenu.AddItem(new MenuItem("useR", "Use R to Farm").SetValue(true));
-            //spellMenu.AddItem(new MenuItem("LaughButton", "Combo").SetValue(new KeyBind(32, KeyBindType.Press)));
-            //spellMenu.AddItem(new MenuItem("ConsumeHealth", "Consume below HP").SetValue(new Slider(40, 1, 100)));
-
             Menu.AddToMainMenu();
 
             Drawing.OnDraw += Drawing_OnDraw;
@@ -116,16 +106,16 @@ namespace Leblanc
             }
         }
         private static void Drawing_OnDraw(EventArgs args)
-			{
-		   
-						Utility.DrawCircle(Player.Position, 1200, Color.MediumTurquoise, 1, 55);
-						Utility.DrawCircle(Player.Position, Q.Range, Color.MediumTurquoise, 1, 55);
-						var target = TargetSelector.GetTarget(1200, TargetSelector.DamageType.Magical);
-						if (target==null) return;
-						Utility.DrawCircle( target.Position, 150,Color.MediumTurquoise, 30,
-						55);
-
-			}
+	{
+	
+		Utility.DrawCircle(Player.Position, 1200, Color.MediumTurquoise, 1, 55);
+		Utility.DrawCircle(Player.Position, Q.Range, Color.MediumTurquoise, 1, 55);
+		var target = TargetSelector.GetTarget(1200, TargetSelector.DamageType.Magical);
+		if (target==null) return;
+		Utility.DrawCircle( target.Position, 150,Color.MediumTurquoise, 30,
+		55);
+	
+	}
         public static bool Selected()
         {
             if (!Menu.Item("force focus selected").GetValue<bool>())
@@ -366,6 +356,7 @@ namespace Leblanc
 
         public static void CastE(Obj_AI_Base target)
         {
+	CheckR();
             if (E.IsReady() && !Player.IsDashing())
             {
                 if (!R.IsReady())
