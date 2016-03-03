@@ -556,20 +556,20 @@ namespace Leblanc
                     Q.CastOnUnit(vMinion);
                 }
             }
-			if (W.IsReady())
-			{
+	if (W.IsReady())
+	{
             var canCastUlt = R.IsReady();
             var minions = MinionManager.GetMinions(W.Range).Select(m => m.ServerPosition.To2D()).ToList();
             var minionPrediction = MinionManager.GetBestCircularFarmLocation(minions, W.Width, W.Range);
             var castPosition = minionPrediction.Position.To3D();
             var notEnoughHits = minionPrediction.MinionsHit < 4;
-            if (notEnoughHits)
+            if (!notEnoughHits)
             {
-                return false;
+                 W.Cast(castPosition);
             }
 
-            W.Cast(castPosition);
-			}
+           
+	}
             
         }
     }
