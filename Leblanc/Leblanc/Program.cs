@@ -115,7 +115,7 @@ namespace Leblanc
         {
              Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
              
-            if (W.IsReady() &&  Player.Instance.Spellbook.GetSpell(SpellSlot.W).Name.ToLower() == "leblancslide")
+            if (W.IsReady() &&  Player.Spellbook.GetSpell(SpellSlot.W).Name.ToLower() == "leblancslide")
                 W.Cast(Game.CursorPos);
             else if (R.IsReady() && Player.Spellbook.GetSpell(SpellSlot.R).Name == "LeblancSlideM")
                 R.Cast(Game.CursorPos);
