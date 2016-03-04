@@ -570,7 +570,7 @@ namespace Leblanc
          private static void LaneClear()
         {
 
-            if ( Q.IsReady())
+            /*if ( Q.IsReady())
             {
                 var minionsQ = MinionManager.GetMinions(
                     ObjectManager.Player.ServerPosition, Q.Range, MinionTypes.All, MinionTeam.NotAlly);
@@ -584,19 +584,21 @@ namespace Leblanc
                 {
                     Q.CastOnUnit(vMinion);
                 }
-            }
+            }*/
 	if (W.IsReady())
 	{
             var canCastUlt = R.IsReady();
             var minions = MinionManager.GetMinions(
                     ObjectManager.Player.ServerPosition, W.Range+200, MinionTypes.All, MinionTeam.NotAlly).Select(m => m.ServerPosition.To2D()).ToList();
-            var minionPrediction = MinionManager.GetBestCircularFarmLocation(minions, 200, W.Range+200);
+                         var minionsQ = MinionManager.GetMinions(
+                    ObjectManager.Player.ServerPosition, Q.Range, MinionTypes.All, MinionTeam.NotAlly);
+            var minionPrediction = MinionManager.GetBestCircularFarmLocation(minionsQ, 200, W.Range+200);
             var castPosition = minionPrediction.Position.To3D();
-            var notEnoughHits = minionPrediction.MinionsHit < 4;
-            if (!notEnoughHits)
-            {
+           // var notEnoughHits = minionPrediction.MinionsHit < 4;
+         //   if (!notEnoughHits)
+          //  {
                  W.Cast(castPosition);
-            }
+           // }
 
            
 	}
