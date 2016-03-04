@@ -80,6 +80,8 @@ namespace Leblanc
                 return;
             if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
             {
+            	CheckR();
+            	CheckW();
                 Combo();
             }
             if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed)
