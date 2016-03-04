@@ -334,7 +334,7 @@ namespace Leblanc
 
         public static void CastW(Obj_AI_Base target)
         {
-            if (!W.IsReady() || Wstate != 1)
+            if (!W.IsReady() || Player.Spellbook.GetSpell(SpellSlot.W).Name.ToLower() != "leblancslide")
                 return;
             var t = Prediction.GetPrediction(target, 400).CastPosition;
             float x = target.MoveSpeed;
