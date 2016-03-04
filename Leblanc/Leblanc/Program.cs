@@ -575,9 +575,9 @@ namespace Leblanc
             var canCastUlt = R.IsReady();
             var minions = MinionManager.GetMinions(
                     ObjectManager.Player.ServerPosition, W.Range+200, MinionTypes.All, MinionTeam.NotAlly).Select(m => m.ServerPosition.To2D()).ToList();
-                         var minionsQ = MinionManager.GetMinions(
-                    ObjectManager.Player.ServerPosition, Q.Range, MinionTypes.All, MinionTeam.NotAlly).Select(m => m.ServerPosition.To2D()).ToList();
-            var minionPrediction = MinionManager.GetBestCircularFarmLocation(minionsQ, 200, W.Range+200);
+            var minionsW = MinionManager.GetMinions(
+                    ObjectManager.Player.ServerPosition, W.Range, MinionTypes.All, MinionTeam.NotAlly).Select(m => m.ServerPosition.To2D()).ToList();
+            var minionPrediction = MinionManager.GetBestCircularFarmLocation(minionsW, 200, W.Range);
             var castPosition = minionPrediction.Position.To3D();
             var EnoughHits = minionPrediction.MinionsHit > 2;
             if (EnoughHits&&Player.Spellbook.GetSpell(SpellSlot.W).Name.ToLower() == "leblancslide")
