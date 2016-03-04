@@ -589,7 +589,7 @@ namespace Leblanc
 	{
             var canCastUlt = R.IsReady();
             var minions = MinionManager.GetMinions(
-                    ObjectManager.Player.ServerPosition, W.Range+200, MinionTypes.All, MinionTeam.NotAlly.Select(m => m.ServerPosition.To2D()).ToList());
+                    ObjectManager.Player.ServerPosition, W.Range+200, MinionTypes.All, MinionTeam.NotAlly).Select(m => m.ServerPosition.To2D()).ToList();
             var minionPrediction = MinionManager.GetBestCircularFarmLocation(minions, 200, W.Range+200);
             var castPosition = minionPrediction.Position.To3D();
             var notEnoughHits = minionPrediction.MinionsHit < 4;
