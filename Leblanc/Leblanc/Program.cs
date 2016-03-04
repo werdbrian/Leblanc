@@ -64,6 +64,8 @@ namespace Leblanc
             spellMenu.AddItem(new MenuItem("force focus selected", "force focus selected").SetValue(false));
             spellMenu.AddItem(new MenuItem("if selected in :", "if selected in :").SetValue(new Slider(1000, 1000, 1500)));
             spellMenu.AddItem(new MenuItem("QE Selected Target", "QE Selected Target").SetValue(new KeyBind("G".ToCharArray()[0], KeyBindType.Press)));
+            spellMenu.AddItem(new MenuItem("RunActive", "Run!").SetValue(new KeyBind("A".ToCharArray()[0], KeyBindType.Press)));
+
             Menu.AddToMainMenu();
 
             Drawing.OnDraw += Drawing_OnDraw;
@@ -106,6 +108,16 @@ namespace Leblanc
             {
                 useQE();
             }
+            if (Menu.Item("RunActive").GetValue<KeyBind>().Active)
+                Run();
+        }
+        private static void Run()
+        {
+             Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
+            if (W.IsReady() &&  Player.Spellbook.GetSpell(SpellSlot.W).Name == "leblancslide")
+                W.Cast(Game.CursorPos);
+            else if (R.IsReady() && Player.Spellbook.GetSpell(SpellSlot.R).Name == "LeblancSlideM")
+                R.Cast(Game.CursorPos);
         }
         private static void Drawing_OnDraw(EventArgs args)
 	{
