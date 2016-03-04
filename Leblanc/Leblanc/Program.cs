@@ -582,7 +582,7 @@ namespace Leblanc
             {
                  W.Cast(castPosition);
             }
-            else if  (EnoughHits && R.IsReady() && Player.Spellbook.GetSpell(SpellSlot.R).Name == "LeblancSlideM")
+            else if  (EnoughHits && Player.Spellbook.GetSpell(SpellSlot.R).Name == "LeblancSlideM")
             {
 		R.Cast(castPosition);            	
             }
