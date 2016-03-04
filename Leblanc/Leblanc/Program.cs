@@ -571,7 +571,7 @@ namespace Leblanc
         {
 
 	if ((W.IsReady() && Player.Spellbook.GetSpell(SpellSlot.W).Name.ToLower() == "leblancslide") ||
-	 )
+	 (R.IsReady() && Player.Spellbook.GetSpell(SpellSlot.R).Name == "LeblancSlideM"))
 	{
 	     var minionsW = MinionManager.GetMinions(
                     ObjectManager.Player.ServerPosition, W.Range, MinionTypes.All, MinionTeam.NotAlly).Select(m => m.ServerPosition.To2D()).ToList();
