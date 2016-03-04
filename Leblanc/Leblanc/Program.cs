@@ -419,35 +419,39 @@ namespace Leblanc
                 Wstate = 1;
         }
 
-        public static void Combo()
+ public static void Combo()
         {
             if (Selected())
             {
                 var target = TargetSelector.GetSelectedTarget();
+                if (target==null) return;
                 CheckE(target);
                 float a = Player.Distance(target.Position);
-                if (a > Q.Range && a <= 1200)
+                if (a > Q.Range && a <= 1200) //dash closer
                 {
-                    if (WgapCombo && R.IsReady() && Rstate != 4 && W.IsReady() 
-                        && Wstate != 2 && Menu.Item("Use W Combo").GetValue<bool>())
+                    if (R.IsReady()  && W.IsReady() && Wstate == 1 && Menu.Item("Use W Combo").GetValue<bool>())
                     {
                         W.Cast(Player.Position.Extend(target.Position, 600));
                     }
-                }
-                else if (a <= Q.Range)
-                {
-                    if (Ecol == 1)
+                    else if (R.IsReady() && Rstate == 2)
                     {
-                        if (W.IsReady() && Wstate != 2)
+                       R.Cast(Player.Position.Extend(target.Position, 600));
+                    }
+                }
+                if (a <= Q.Range) //if in range
+                {
+                    if (Ecol == 1) //if e is blocked
+                    {
+                        if (W.IsReady() && Wstate == 1) //if we can use W
                         {
                             useW();
                             useQ();
-                            useR();
+                            if (ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).Name != "leblancslidereturnm") useR();
                             useE();
                         }
                         if (!W.IsReady() && Wstate == 1 && R.IsReady() && Rstate == 2)
                         {
-                            useR();
+                            if (ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).Name != "leblancslidereturnm") useR();
                             useQ();
                             useE();
                             useW();
@@ -455,58 +459,58 @@ namespace Leblanc
                         else
                         {
                             useQ();
-                            useR();
+                            if (ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).Name != "leblancslidereturnm") useR();
                             useE();
-                            useW();
+                            if (Wstate !=2) useW();
                         }
                     }
                     if (Ecol == 0)
                     {
                         useQ();
-                        useR();
+                        if (ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).Name != "leblancslidereturnm") useR();
                         useE();
                         if (!(R.IsReady() && Rstate == 1))
-                            useW();
+                            if (Wstate==1) useW();
                     }
                 }
             }
             else
             {
                 var target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Magical);
-                if (target.IsValidTarget())
+                if (target != null)
                 {
                     CheckE(target);
                     if (Ecol == 1)
                     {
-                        if (W.IsReady() && Wstate != 2)
+                        if (W.IsReady() && Wstate == 1)
                         {
                             useW();
                             useQ();
-                            useR();
+                            if (ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).Name != "leblancslidereturnm") useR();
                             useE();
                         }
-                        if (!W.IsReady() && Wstate == 1 && R.IsReady() && Rstate == 2)
+                        else if (!W.IsReady()  && R.IsReady() && Rstate == 2)
                         {
                             useR();
                             useQ();
                             useE();
-                            useW();
+                            if (Wstate == 1) useW();
                         }
                         else
                         {
                             useQ();
-                            useR();
+                            if (ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).Name != "leblancslidereturnm") useR();
                             useE();
-                            useW();
+                            if (Wstate == 1) useW();
                         }
                     }
                     if (Ecol == 0)
                     {
                         useQ();
-                        useR();
+                        if (ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).Name != "leblancslidereturnm") useR();
                         useE();
                         if (!(R.IsReady() && Rstate == 1))
-                            useW();
+                            if (Wstate==1) useW();
                     }
                 }
                 else
@@ -514,16 +518,18 @@ namespace Leblanc
                     var target1 = TargetSelector.GetTarget(1200, TargetSelector.DamageType.Magical);
                     if (target1 != null)
                     {
-                        if (WgapCombo && R.IsReady() && Rstate != 4 && W.IsReady() 
-                            && Wstate != 2 && Menu.Item("Use W Combo").GetValue<bool>())
+                        if ( W.IsReady() && Wstate == 1 && Menu.Item("Use W Combo").GetValue<bool>())
                         {
                             W.Cast(Player.Position.Extend(target1.Position, 600));
+                        }
+                        else if (R.IsReady() && ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).Name == "LeblancSlideM")
+                        {
+                            R.Cast(Player.Position.Extend(target.Position, 600));
                         }
                     }
                 }
             }
         }
-
         public static void useQE()
         {
                 Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
