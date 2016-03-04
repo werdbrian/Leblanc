@@ -570,22 +570,7 @@ namespace Leblanc
          private static void LaneClear()
         {
 
-            /*if ( Q.IsReady())
-            {
-                var minionsQ = MinionManager.GetMinions(
-                    ObjectManager.Player.ServerPosition, Q.Range, MinionTypes.All, MinionTeam.NotAlly);
-                foreach (Obj_AI_Base vMinion in 
-                    from vMinion in minionsQ
-                    let vMinionQDamage = ObjectManager.Player.GetSpellDamage(vMinion, SpellSlot.Q)
-                    where
-                        vMinion.Health <= vMinionQDamage &&
-                        vMinion.Health > ObjectManager.Player.GetAutoAttackDamage(vMinion)
-                    select vMinion)
-                {
-                    Q.CastOnUnit(vMinion);
-                }
-            }*/
-	if (W.IsReady())
+	if (W.IsReady() && Player.Spellbook.GetSpell(SpellSlot.W).Name.ToLower() == "leblancslide")
 	{
             var canCastUlt = R.IsReady();
             var minions = MinionManager.GetMinions(
@@ -594,7 +579,7 @@ namespace Leblanc
                     ObjectManager.Player.ServerPosition, Q.Range, MinionTypes.All, MinionTeam.NotAlly).Select(m => m.ServerPosition.To2D()).ToList();
             var minionPrediction = MinionManager.GetBestCircularFarmLocation(minionsQ, 200, W.Range+200);
             var castPosition = minionPrediction.Position.To3D();
-            var EnoughHits = minionPrediction.MinionsHit < 3;
+            var EnoughHits = minionPrediction.MinionsHit < 4;
             if (EnoughHits)
             {
                  W.Cast(castPosition);
