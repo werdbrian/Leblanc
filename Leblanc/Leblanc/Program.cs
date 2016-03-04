@@ -595,7 +595,7 @@ namespace Leblanc
             var minionPrediction = MinionManager.GetBestCircularFarmLocation(minionsQ, 200, W.Range+200);
             var castPosition = minionPrediction.Position.To3D();
             var EnoughHits = minionPrediction.MinionsHit < 3;
-            if (tEnoughHits)
+            if (EnoughHits)
             {
                  W.Cast(castPosition);
             }
