@@ -570,18 +570,22 @@ namespace Leblanc
          private static void LaneClear()
         {
 
-	if (W.IsReady() && Player.Spellbook.GetSpell(SpellSlot.W).Name.ToLower() == "leblancslide")
+	if ((W.IsReady() && Player.Spellbook.GetSpell(SpellSlot.W).Name.ToLower() == "leblancslide") ||
+	 )
 	{
 	     var minionsW = MinionManager.GetMinions(
                     ObjectManager.Player.ServerPosition, W.Range, MinionTypes.All, MinionTeam.NotAlly).Select(m => m.ServerPosition.To2D()).ToList();
             var minionPrediction = MinionManager.GetBestCircularFarmLocation(minionsW, 200, W.Range);
             var castPosition = minionPrediction.Position.To3D();
             var EnoughHits = minionPrediction.MinionsHit > 2;
-            if (EnoughHits&&Player.Spellbook.GetSpell(SpellSlot.W).Name.ToLower() == "leblancslide")
+            if (EnoughHits && Player.Spellbook.GetSpell(SpellSlot.W).Name.ToLower() == "leblancslide")
             {
                  W.Cast(castPosition);
             }
-
+            else if  (EnoughHits && R.IsReady() && Player.Spellbook.GetSpell(SpellSlot.R).Name == "LeblancSlideM")
+            {
+		R.Cast(castPosition);            	
+            }
            
 	}
             
