@@ -348,7 +348,7 @@ namespace Leblanc
             {
                 pos = target.Position.Extend(t, y - 50);
             }
-            if (Player.Distance(pos) <= 600)
+            if (Player.Distance(pos) <= 600 && Player.Spellbook.GetSpell(SpellSlot.W).Name.ToLower() == "leblancslide")
             {
                 W.Cast(pos);
             }
@@ -357,14 +357,14 @@ namespace Leblanc
                 if (target.Distance(t) > y)
                 {
                     var pos2 = target.Position.Extend(t, y);
-                    if (Player.Distance(pos2) <= 600)
+                    if (Player.Distance(pos2) <= 600 && Player.Spellbook.GetSpell(SpellSlot.W).Name.ToLower() == "leblancslide")
                     {
                         W.Cast(pos2);
                     }
                     else
                     {
                         var prediction = W.GetPrediction(target);
-                        if (prediction.Hitchance >= HitChance.High)
+                        if (prediction.Hitchance >= HitChance.High && Player.Spellbook.GetSpell(SpellSlot.W).Name.ToLower() == "leblancslide")
                         {
                             var pos3 = prediction.CastPosition;
                             var pos4 = Player.Position.Extend(pos3, 600);
