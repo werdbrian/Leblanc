@@ -55,6 +55,7 @@ namespace Leblanc
             Menu ts = Menu.AddSubMenu(new Menu("Target Selector", "Target Selector")); ;
             TargetSelector.AddToMenu(ts);
 
+
             Menu spellMenu = Menu.AddSubMenu(new Menu("Spells", "Spells"));
             spellMenu.AddItem(new MenuItem("Use Q Harass", "Use Q Harass").SetValue(true));
             spellMenu.AddItem(new MenuItem("Use W Harass", "Use W Harass").SetValue(true));
@@ -448,11 +449,11 @@ namespace Leblanc
                 float a = Player.Distance(target.Position);
                 if (a > Q.Range && a <= 1200) //dash closer
                 {
-                    if (R.IsReady()  && W.IsReady() && Wstate == 1 && Menu.Item("Use W Combo").GetValue<bool>())
+                    if (W.IsReady() &&  Player.Spellbook.GetSpell(SpellSlot.W).Name.ToLower() == "leblancslide" && Menu.Item("Use W Combo").GetValue<bool>())
                     {
                         W.Cast(Player.Position.Extend(target.Position, 600));
                     }
-                    else if (R.IsReady() && Rstate == 2)
+                    else if (R.IsReady() && Player.Spellbook.GetSpell(SpellSlot.R).Name == "LeblancSlideM")
                     {
                        R.Cast(Player.Position.Extend(target.Position, 600));
                     }
@@ -461,14 +462,14 @@ namespace Leblanc
                 {
                     if (Ecol == 1) //if e is blocked
                     {
-                        if (W.IsReady() && Wstate == 1) //if we can use W
+                        if (W.IsReady() && Player.Spellbook.GetSpell(SpellSlot.W).Name.ToLower() == "leblancslide") //if we can use W
                         {
                             useW();
                             useQ();
                             if (ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).Name != "leblancslidereturnm") useR();
                             useE();
                         }
-                        if (!W.IsReady() && Wstate == 1 && R.IsReady() && Rstate == 2)
+                        if (!W.IsReady() && Player.Spellbook.GetSpell(SpellSlot.W).Name.ToLower() == "leblancslide" && R.IsReady() && Rstate == 2)
                         {
                             if (ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).Name != "leblancslidereturnm") useR();
                             useQ();
