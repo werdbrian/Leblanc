@@ -80,13 +80,15 @@ namespace Leblanc
         {
             if (Player.IsDead)
                 return;
+            CheckR();
+            CheckW();
             if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
             {
             	CheckR();
             	CheckW();
                 Combo();
             }
-            if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed)
+            else if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed)
             {
                 if (Menu.Item("Use Q Harass").GetValue<bool>())
                 {
@@ -101,6 +103,10 @@ namespace Leblanc
                     useWBH();
                 }
 
+            }
+            else if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear)
+            {
+                LaneClear();
             }
             CheckR();
             CheckW();
