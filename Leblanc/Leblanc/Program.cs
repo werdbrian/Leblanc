@@ -594,11 +594,11 @@ namespace Leblanc
                     ObjectManager.Player.ServerPosition, Q.Range, MinionTypes.All, MinionTeam.NotAlly).Select(m => m.ServerPosition.To2D()).ToList();
             var minionPrediction = MinionManager.GetBestCircularFarmLocation(minionsQ, 200, W.Range+200);
             var castPosition = minionPrediction.Position.To3D();
-           // var notEnoughHits = minionPrediction.MinionsHit < 4;
-         //   if (!notEnoughHits)
-          //  {
+            var EnoughHits = minionPrediction.MinionsHit < 3;
+            if (tEnoughHits)
+            {
                  W.Cast(castPosition);
-           // }
+            }
 
            
 	}
