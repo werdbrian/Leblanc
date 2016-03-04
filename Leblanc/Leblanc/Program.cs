@@ -538,7 +538,7 @@ namespace Leblanc
                     var target1 = TargetSelector.GetTarget(1200, TargetSelector.DamageType.Magical);
                     if (target1 != null)
                     {
-                        if ( W.IsReady() && Wstate == 1 && Menu.Item("Use W Combo").GetValue<bool>())
+                        if ( W.IsReady() && Player.Spellbook.GetSpell(SpellSlot.W).Name.ToLower() == "leblancslide" && Menu.Item("Use W Combo").GetValue<bool>())
                         {
                             W.Cast(Player.Position.Extend(target1.Position, 600));
                         }
