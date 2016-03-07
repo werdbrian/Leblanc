@@ -98,6 +98,10 @@ namespace Leblanc
                 if (Menu.Item("Use W Harass").GetValue<bool>())
                 {
                     useWH();
+                    var target = TargetSelector.GetSelectedTarget();
+                    CheckE(target);
+                    if (Ecol == 0)
+                        useEH();
                 }
                 if (Menu.Item("Use W Back Harass").GetValue<bool>())
                 {
@@ -107,7 +111,7 @@ namespace Leblanc
             }
             else if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear)
             {
-                LaneClear();
+              //  LaneClear();
             }
             CheckR();
             CheckW();
@@ -200,6 +204,27 @@ namespace Leblanc
                 var target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Magical) ??
                              TargetSelector.GetTarget(E.Range, TargetSelector.DamageType.Magical);
                 if (target != null && target.IsValidTarget(E.Range))
+                {
+                    CastE(target);
+                }
+            }
+        }
+        public static void useEH()
+        {
+            if (Selected())
+            {
+                var target = TargetSelector.GetSelectedTarget();
+                if (target != null && target.IsValidTarget(Q.Range))
+                {
+                    CastE(target);
+                }
+
+            }
+            else
+            {
+                var target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Magical) ??
+                             TargetSelector.GetTarget(E.Range, TargetSelector.DamageType.Magical);
+                if (target != null && target.IsValidTarget(800))
                 {
                     CastE(target);
                 }
